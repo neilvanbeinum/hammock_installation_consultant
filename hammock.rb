@@ -50,15 +50,18 @@ combinations = ALL_COMBINATIONS.each do |a_length, b_length|
 
   hammock_length = Math.sqrt(a_length**2 + b_length**2)
 
-  answers[:perfect_lengths] += 1 if hammock_length == ideal_length
-  # BUG!
-  answers[:acceptable_lengths] += 1 if acceptable_lengths.cover? hammock_length
+  if hammock_length == ideal_length
+    answers[:perfect_lengths] += 1
+  else
+    answers[:acceptable_lengths] += 1 if acceptable_lengths.cover? hammock_length
+  end
 
   puts ({ a_length:, b_length:, hammock_length: }).inspect
 end
 
+puts "Out of #{ ALL_COMBINATIONS.length } possible combinations:"
 puts "There are #{ answers[:perfect_lengths] } hammock configurations for your ideal length."
-puts "There are also #{ answers[:acceptable_lengths] } hammock configurations that are suboptional but which you may nonetheless find acceptable. Good day."
+puts "There are also #{ answers[:acceptable_lengths] } other hammock configurations that are suboptional but which you may nonetheless find acceptable. Good day."
 
 
 # output...but is it correct?
