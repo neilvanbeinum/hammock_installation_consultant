@@ -38,21 +38,27 @@ ALL_COMBINATIONS = RAIL_A_COORDS.product(RAIL_B_COORDS)
 
 acceptable_lengths = (ideal_length-1..ideal_length+1)
 
-combinations = ALL_COMBINATIONS.count do |a_length, b_length|
+answers = {
+  perfect_lengths: 0,
+  acceptable_lengths: 0
+}
+
+combinations = ALL_COMBINATIONS.each do |a_length, b_length|
   # Uhh how do I do squaring...
 
   # NOT ^ which is a bitwise operation
 
   hammock_length = Math.sqrt(a_length**2 + b_length**2)
 
-  acceptable = acceptable_lengths.cover? hammock_length
+  answers[:perfect_lengths] += 1 if hammock_length == ideal_length
+  # BUG!
+  answers[:acceptable_lengths] += 1 if acceptable_lengths.cover? hammock_length
 
-  puts ({ a_length:, b_length:, hammock_length:, acceptable: }).inspect
-
-  acceptable
+  puts ({ a_length:, b_length:, hammock_length: }).inspect
 end
 
-puts "There are #{ combinations } hammock configurations you may find suitable. Good day."
+puts "There are #{ answers[:perfect_lengths] } hammock configurations for your ideal length."
+puts "There are also #{ answers[:acceptable_lengths] } hammock configurations that are suboptional but which you may nonetheless find acceptable. Good day."
 
 
 # output...but is it correct?
